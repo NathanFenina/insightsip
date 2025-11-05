@@ -3,218 +3,1274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEO AI System™ - La Machine à Contenu SEO</title>
-    <!-- Chargement de Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Configuration de la police Inter et des couleurs -->
+    <title>Audit SEO & LinkedIn - Insight SiP | Multipliez votre trafic par 4</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-bg: #f8fafc;
+            --border: #e2e8f0;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0d111c; /* Fond sombre */
-            color: #f3f4f6; /* Texte clair */
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: white;
         }
-        .text-neon {
-            color: #0af; /* Bleu électrique/cyan */
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
-        .bg-neon-gradient {
-            background: linear-gradient(135deg, #0af 0%, #00d2ff 100%);
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .header .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-box .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-box .label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-alt {
+            background: var(--light-bg);
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 50px;
+            max-width: 700px;
+        }
+
+        .alert {
+            padding: 20px 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            display: flex;
+            align-items: start;
+            gap: 15px;
+        }
+
+        .alert-danger {
+            background: #fee;
+            border-left: 4px solid var(--danger);
+        }
+
+        .alert-warning {
+            background: #fef3e2;
+            border-left: 4px solid var(--warning);
+        }
+
+        .alert-success {
+            background: #e6f9f0;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .alert-icon {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+            border: 1px solid var(--border);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 25px;
+        }
+
+        .metric-card .value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+            margin: 10px 0;
+        }
+
+        .metric-card .change {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .change.negative {
+            color: var(--danger);
+        }
+
+        .change.positive {
+            color: var(--secondary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:hover {
+            background: var(--light-bg);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge-info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin: 40px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--primary);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -46px;
+            top: 0;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px var(--primary);
+        }
+
+        .timeline-item h4 {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            margin-left: 15px;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 350px;
+            margin: 30px 0;
+        }
+
+        .comparison-table {
+            margin: 40px 0;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #fef08a 0%, #fef08a 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 85%;
+            font-weight: 600;
+        }
+
+        .icon-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .icon-list li {
+            padding: 12px 0;
+            padding-left: 35px;
+            position: relative;
+        }
+
+        .icon-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid var(--border);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .pricing-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-10px);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(37, 99, 235, 0.2);
+            position: relative;
+        }
+
+        .pricing-card.featured::before {
+            content: 'RECOMMANDÉ';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .pricing-card .price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+
+        .pricing-card .price span {
+            font-size: 1.2rem;
+            color: var(--gray);
+        }
+
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .header .stats {
+                gap: 20px;
+            }
+
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 15px;
+            }
         }
     </style>
 </head>
-<body class="min-h-screen antialiased">
+<body>
 
-    <!-- Section Principale (Hero) -->
-    <header class="py-16 md:py-24 px-4 sm:px-6 lg:px-8 text-center border-b border-gray-800">
-        <div class="max-w-4xl mx-auto">
-            <p class="text-sm font-semibold uppercase tracking-widest text-neon mb-4">
-                De retour suite à la demande populaire
-            </p>
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-6">
-                Le <span class="text-neon">SEO AI System™</span> : L'outil qui remplace <br class="hidden md:inline"> votre workflow complet.
-            </h1>
-            <p class="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
-                J'ai arrêté d'en parler pour me concentrer sur l'agence, mais vous continuez de le demander. Ce système n'est pas un banal outil de rédaction IA, c'est une machine de guerre pour votre croissance.
-            </p>
-            <a href="#cta" class="inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-xl shadow-lg bg-neon-gradient hover:opacity-90 transition duration-300 text-gray-900 uppercase tracking-wider transform hover:scale-[1.02]">
-                Réservez un Appel Démo
-            </a>
-        </div>
-    </header>
-
-    <!-- Section Workflow Remplacé -->
-    <section class="py-16 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+    <!-- HEADER -->
+    <div class="header">
+        <div class="container">
+            <h1>🚀 Insight SiP : Audit SEO & LinkedIn</h1>
+            <p class="subtitle">Comment multiplier votre trafic qualifié par 4 et générer 500+ leads B2B en 12 mois</p>
             
-            <!-- Contenu Gauche -->
-            <div>
-                <h2 class="text-3xl font-bold mb-6">
-                    De 6 heures à <span class="text-neon">10 minutes</span>.
-                </h2>
-                <p class="text-gray-400 text-lg mb-8">
-                    Notre système remplace un workflow complet qu'un humain mettrait 6 heures à réaliser, en seulement 10 minutes. <span class="font-bold text-white">C'est la fin du travail manuel en SEO.</span>
+            <div class="stats">
+                <div class="stat-box">
+                    <span class="number">-58%</span>
+                    <span class="label">Trafic organique en 4 mois</span>
+                </div>
+                <div class="stat-box">
+                    <span class="number">274</span>
+                    <span class="label">Visites/mois actuelles</span>
+                </div>
+                <div class="stat-box">
+                    <span class="number">x4</span>
+                    <span class="label">Potentiel de croissance</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROBLÉMATIQUE -->
+    <div class="section">
+        <div class="container">
+            <h2 class="section-title">📉 État des Lieux : Le Diagnostic</h2>
+            <p class="section-subtitle">Analyse complète de votre présence digitale actuelle (Novembre 2025)</p>
+
+            <div class="alert alert-danger">
+                <span class="alert-icon">⚠️</span>
+                <div>
+                    <strong>Alerte Critique :</strong> Votre trafic organique a chuté de 58% depuis juillet 2025 (de ~650 à 274 visites/mois). Cette baisse significative impacte directement votre génération de leads et votre pipeline commercial.
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="metric-card card">
+                    <h4>Trafic Organique</h4>
+                    <span class="value">274</span>
+                    <span class="change negative">↓ 58% vs Juil. 2025</span>
+                    <p style="margin-top: 15px; color: var(--gray); font-size: 0.9rem;">Baisse critique nécessitant une action immédiate</p>
+                </div>
+                <div class="metric-card card">
+                    <h4>Authority Score</h4>
+                    <span class="value">23/100</span>
+                    <span class="badge badge-warning">Moyen</span>
+                    <p style="margin-top: 15px; color: var(--gray); font-size: 0.9rem;">Bien en dessous des leaders du secteur</p>
+                </div>
+                <div class="metric-card card">
+                    <h4>Mots-clés Positionnés</h4>
+                    <span class="value">778</span>
+                    <span class="change negative">↓ 6%</span>
+                    <p style="margin-top: 15px; color: var(--gray); font-size: 0.9rem;">Opportunités sous-exploitées</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🎯 Vos Meilleurs Positionnements Actuels</h3>
+                <p style="margin-bottom: 20px; color: var(--gray);">Mots-clés où vous êtes déjà bien placés mais sous-optimisés</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mot-clé</th>
+                            <th>Position</th>
+                            <th>Volume</th>
+                            <th>Trafic Actuel</th>
+                            <th>Potentiel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>bluetooth 6.0 module</strong></td>
+                            <td><span class="badge badge-success">P2</span></td>
+                            <td>30/mois</td>
+                            <td>3 visites</td>
+                            <td><strong style="color: var(--secondary)">+5 visites (+167%)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>low power bluetooth module</strong></td>
+                            <td><span class="badge badge-success">P4</span></td>
+                            <td>40/mois</td>
+                            <td>2 visites</td>
+                            <td><strong style="color: var(--secondary)">+8 visites (+400%)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>bluetooth le module</strong></td>
+                            <td><span class="badge badge-success">P5</span></td>
+                            <td>140/mois</td>
+                            <td>4 visites</td>
+                            <td><strong style="color: var(--secondary)">+31 visites (+775%)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>ble module</strong></td>
+                            <td><span class="badge badge-warning">P6</span></td>
+                            <td>320/mois</td>
+                            <td>11 visites</td>
+                            <td><strong style="color: var(--secondary)">+56 visites (+509%)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>bluetooth modules</strong></td>
+                            <td><span class="badge badge-warning">P6</span></td>
+                            <td>320/mois</td>
+                            <td>4 visites</td>
+                            <td><strong style="color: var(--secondary)">+63 visites (+1575%)</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="alert alert-success">
+                    <span class="alert-icon">💡</span>
+                    <div>
+                        <strong>Quick Win Identifié :</strong> En passant ces 5 mots-clés de leur position actuelle au Top 3, vous pouvez générer +163 visites/mois supplémentaires (+59%) en seulement 2-3 mois.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OPPORTUNITÉS SEO -->
+    <div class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">🎯 Opportunités SEO : Le Potentiel Inexploité</h2>
+            <p class="section-subtitle">Analyse de 100+ mots-clés à fort potentiel dans votre secteur</p>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>📈 Mots-clés à Fort Volume</h3>
+                    <p style="color: var(--gray); margin-bottom: 20px;">Opportunités majeures actuellement manquées</p>
+                    <ul class="icon-list">
+                        <li><strong>ble bluetooth</strong> - 590 vol/mois (Position 15 → potentiel +120 visites)</li>
+                        <li><strong>bluetooth low energy</strong> - 5,400 vol/mois (Non positionné → +400 visites)</li>
+                        <li><strong>iot bluetooth</strong> - 2,900 vol/mois (Non positionné → +200 visites)</li>
+                        <li><strong>bluetooth mesh</strong> - 1,600 vol/mois (Position 68 → +150 visites)</li>
+                        <li><strong>wireless iot modules</strong> - 720 vol/mois (Non positionné → +80 visites)</li>
+                    </ul>
+                    <div style="margin-top: 20px; padding: 15px; background: var(--light-bg); border-radius: 8px;">
+                        <strong style="color: var(--primary);">Potentiel Total : +950 visites/mois</strong>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🎓 Content Gaps Identifiés</h3>
+                    <p style="color: var(--gray); margin-bottom: 20px;">Contenus manquants à créer</p>
+                    <ul class="icon-list">
+                        <li><strong>Comparaisons Produits</strong> - "bluetooth module comparison" (390 vol)</li>
+                        <li><strong>Guides d'Implémentation</strong> - "how to integrate ble" (420 vol)</li>
+                        <li><strong>Applications Verticales</strong> - "bluetooth medical devices" (1.6K vol)</li>
+                        <li><strong>Contenus Éducatifs</strong> - "bluetooth 6.0 features" (920 vol)</li>
+                        <li><strong>Technical Deep Dives</strong> - "antenna design iot" (350 vol)</li>
+                    </ul>
+                    <div style="margin-top: 20px; padding: 15px; background: var(--light-bg); border-radius: 8px;">
+                        <strong style="color: var(--primary);">Potentiel : +400 visites/mois</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 40px;">
+                <h3>📊 Projection de Croissance SEO (12 mois)</h3>
+                <div class="chart-container">
+                    <canvas id="seoGrowthChart"></canvas>
+                </div>
+                <p style="text-align: center; color: var(--gray); margin-top: 20px;">
+                    Projection basée sur l'optimisation progressive des 100+ opportunités identifiées
                 </p>
-                
-                <div class="grid grid-cols-2 gap-x-6 gap-y-4">
-                    <div class="flex items-center text-white font-semibold">
-                        <span class="text-neon text-xl mr-3">⚡</span>
-                        Gain de +30h par semaine
-                    </div>
-                    <div class="flex items-center text-white font-semibold">
-                        <span class="text-neon text-xl mr-3">🚀</span>
-                        Efficacité ×5 plus rapide
-                    </div>
-                    <div class="flex items-center text-white font-semibold">
-                        <span class="text-neon text-xl mr-3">🧠</span>
-                        Remplace un SEO manager junior
-                    </div>
-                    <div class="flex items-center text-white font-semibold">
-                        <span class="text-neon text-xl mr-3">💰</span>
-                        Prix accessible (volontairement)
-                    </div>
-                </div>
             </div>
 
-            <!-- Liste de Fonctionnalités Droite -->
-            <div class="bg-gray-800 p-8 rounded-xl shadow-2xl">
-                <h3 class="text-xl font-bold mb-6 text-neon border-b border-gray-700 pb-3">
-                    Un workflow complet, 100% automatisé
-                </h3>
-                <ul class="space-y-4 text-gray-300">
-                    <li class="flex items-start">
-                        <span class="text-neon mr-3 mt-1">◉</span> Analyse de la SERP & de la concurrence
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-neon mr-3 mt-1">◉</span> Recherche de mots-clés stratégiques
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-neon mr-3 mt-1">◉</span> Création d'outline (Plan détaillé)
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-neon mr-3 mt-1">◉</span> Rédaction H2 par H2 (structurée)
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-neon mr-3 mt-1">◉</span> Maillage interne automatique (pertinent)
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-neon mr-3 mt-1">◉</span> Humanisation selon votre style éditorial
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-neon mr-3 mt-1">◉</span> Publication directe sur votre CMS
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section Transparence & Propriété -->
-    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-900">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-3xl font-bold mb-4">
-                Transparence. Autonomie. Propriété.
-            </h2>
-            <p class="text-lg text-gray-400 mb-10">
-                Aucun autre outil sur le marché ne combine ces quatre piliers. Nous croyons au contrôle total pour l'utilisateur.
-            </p>
-
-            <div class="grid sm:grid-cols-4 gap-6">
-                <div class="p-6 bg-gray-800 rounded-xl shadow-inner border border-gray-700">
-                    <div class="text-4xl mb-3">✅</div>
-                    <h4 class="text-xl font-bold text-neon">Transparence</h4>
-                    <p class="text-sm text-gray-400 mt-2">Tout est visible. Vous savez comment chaque contenu est créé.</p>
-                </div>
-                <div class="p-6 bg-gray-800 rounded-xl shadow-inner border border-gray-700">
-                    <div class="text-4xl mb-3">🛠️</div>
-                    <h4 class="text-xl font-bold text-neon">Autonomie</h4>
-                    <p class="text-sm text-gray-400 mt-2">Customisez les prompts vous-même si besoin. Vous êtes aux commandes.</p>
-                </div>
-                <div class="p-6 bg-gray-800 rounded-xl shadow-inner border border-gray-700">
-                    <div class="text-4xl mb-3">🔒</div>
-                    <h4 class="text-xl font-bold text-neon">Propriété</h4>
-                    <p class="text-sm text-gray-400 mt-2">Vous êtes propriétaire de l'outil et de son contenu généré.</p>
-                </div>
-                <div class="p-6 bg-gray-800 rounded-xl shadow-inner border border-gray-700">
-                    <div class="text-4xl mb-3">📈</div>
-                    <h4 class="text-xl font-bold text-neon">Résultats</h4>
-                    <p class="text-sm text-gray-400 mt-2">Un impact chiffré et des résultats mesurables garantis.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section Options/Tarification -->
-    <section id="cta" class="py-20 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-center text-3xl font-bold mb-12">
-                2 Possibilités pour scaler votre SEO
-            </h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                
-                <!-- Option 1: Consultant SEO / Setup One Shot -->
-                <div class="bg-gray-800 p-8 rounded-2xl border-4 border-neon/50 shadow-2xl transition hover:shadow-neon/40 duration-300">
-                    <p class="text-sm font-semibold uppercase tracking-widest text-neon mb-3">
-                        Option 1 (Setup One Shot)
-                    </p>
-                    <h3 class="text-2xl font-extrabold text-white mb-4">
-                        Consultant SEO & Agences
-                    </h3>
-                    <p class="text-gray-400 mb-6 min-h-[70px]">
-                        Vous récupérez l'outil configuré spécifiquement pour votre business. Installation rapide et pilotage en autonomie totale.
-                    </p>
-                    <ul class="space-y-3 text-gray-300 mb-8">
-                        <li class="flex items-center"><span class="text-neon mr-3">✓</span> Accès à l'intégralité du système</li>
-                        <li class="flex items-center"><span class="text-neon mr-3">✓</span> Formation complète à l'autonomie</li>
-                        <li class="flex items-center"><span class="text-neon mr-3">✓</span> Propriété de tous les prompts</li>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>Phase 1 : Quick Wins (Mois 1-3)</h4>
+                    <ul class="icon-list">
+                        <li>Optimisation des 15 mots-clés déjà positionnés (P6 → P3)</li>
+                        <li>Création de 10 articles ciblés sur opportunités immédiates</li>
+                        <li>Corrections techniques critiques (vitesse, mobile)</li>
+                        <li><strong>Objectif : +200 visites/mois (+73%)</strong></li>
                     </ul>
-                    <a href="#" class="block w-full text-center py-3 rounded-xl font-bold text-gray-900 bg-neon hover:bg-neon/80 transition duration-300">
-                        Je veux l'outil en autonomie
-                    </a>
                 </div>
 
-                <!-- Option 2: TPE/PME / Agence Complète -->
-                <div class="bg-gray-900 p-8 rounded-2xl border-4 border-gray-700 shadow-2xl transition hover:border-neon/50 duration-300">
-                    <p class="text-sm font-semibold uppercase tracking-widest text-gray-400 mb-3">
-                        Option 2 (Agence Complète)
-                    </p>
-                    <h3 class="text-2xl font-extrabold text-white mb-4">
-                        TPE / PME : IA + Experts Humains
-                    </h3>
-                    <p class="text-gray-400 mb-6 min-h-[70px]">
-                        Nous nous occupons de tout de A à Z. Nos agents IA travaillent 24/7, supervisés et optimisés par nos experts humains.
-                    </p>
-                    <ul class="space-y-3 text-gray-300 mb-8">
-                        <li class="flex items-center"><span class="text-neon mr-3">✓</span> Stratégie et exécution complète</li>
-                        <li class="flex items-center"><span class="text-neon mr-3">✓</span> Supervision et optimisation experte</li>
-                        <li class="flex items-center"><span class="text-neon mr-3">✓</span> Vous recevez juste les résultats</li>
+                <div class="timeline-item">
+                    <h4>Phase 2 : Content Strategy (Mois 4-6)</h4>
+                    <ul class="icon-list">
+                        <li>20 guides techniques approfondis</li>
+                        <li>Optimisation des white papers (HTML landing pages)</li>
+                        <li>Mise en place silos thématiques</li>
+                        <li><strong>Objectif : +580 visites/mois (+212%)</strong></li>
                     </ul>
-                    <a href="#" class="block w-full text-center py-3 rounded-xl font-bold text-white border-2 border-neon hover:bg-neon transition duration-300">
-                        Je veux une croissance sans effort
-                    </a>
                 </div>
 
+                <div class="timeline-item">
+                    <h4>Phase 3 : Authority Building (Mois 7-12)</h4>
+                    <ul class="icon-list">
+                        <li>Campagne de backlinks sectoriels</li>
+                        <li>Optimisation pour featured snippets</li>
+                        <li>Expansion internationale (EN, DE)</li>
+                        <li><strong>Objectif : 1,100+ visites/mois (+300%)</strong></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Footer/P.S. et Réseaux -->
-    <footer class="py-10 px-4 sm:px-6 lg:px-8 border-t border-gray-800 mt-12">
-        <div class="max-w-6xl mx-auto text-center">
-            <div class="mb-4">
-                <a href="#" class="inline-block text-gray-400 hover:text-white mx-3 transition">
-                    <span class="text-xl mr-1">👉</span> Réserve un appel
-                </a>
-                <a href="#" class="inline-block text-gray-400 hover:text-red-500 mx-3 transition">
-                    <span class="text-xl mr-1">❤️</span> Like pour la transparence
-                </a>
-                <a href="#" class="inline-block text-gray-400 hover:text-blue-500 mx-3 transition">
-                    <span class="text-xl mr-1">🔄</span> Repartage si tu connais un SEO qui galère
-                </a>
+    <!-- ANALYSE CONCURRENTIELLE -->
+    <div class="section">
+        <div class="container">
+            <h2 class="section-title">🏆 Benchmark Concurrentiel</h2>
+            <p class="section-subtitle">Comment vous vous situez face aux leaders du marché</p>
+
+            <div class="alert alert-warning">
+                <span class="alert-icon">📊</span>
+                <div>
+                    <strong>Gap Concurrentiel :</strong> Votre trafic actuel représente seulement 0.4% de celui de Nordic Semiconductor (leader du marché). Il existe un énorme potentiel de rattrapage sur des segments de niche où vous avez des avantages compétitifs.
+                </div>
             </div>
-            <p class="text-sm text-gray-500 mt-6">
-                P.S. : Oui, le système est à nouveau disponible. La version SaaS n'arrivera pas de sitôt, profitez-en maintenant.
+
+            <div class="card">
+                <h3>Comparaison avec les Top 3 Concurrents</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Entreprise</th>
+                            <th>Trafic Organique</th>
+                            <th>Authority Score</th>
+                            <th>Mots-clés</th>
+                            <th>Gap vs Insight SiP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #fef9c3;">
+                            <td><strong>Insight SiP</strong></td>
+                            <td>274/mois</td>
+                            <td>23</td>
+                            <td>778</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nordic Semiconductor</strong></td>
+                            <td>~75,000/mois</td>
+                            <td>65+</td>
+                            <td>50,000+</td>
+                            <td><span class="badge badge-danger">x274</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Murata Manufacturing</strong></td>
+                            <td>~40,000/mois</td>
+                            <td>60+</td>
+                            <td>30,000+</td>
+                            <td><span class="badge badge-danger">x146</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Silicon Labs</strong></td>
+                            <td>~55,000/mois</td>
+                            <td>62+</td>
+                            <td>40,000+</td>
+                            <td><span class="badge badge-danger">x200</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grid-2" style="margin-top: 40px;">
+                <div class="card">
+                    <h3>🎯 Votre Avantage Compétitif</h3>
+                    <p style="color: var(--gray); margin-bottom: 20px;">Positionnement unique à exploiter</p>
+                    <ul class="icon-list">
+                        <li><strong>System-in-Package Expertise</strong> - Technologie de niche peu adressée</li>
+                        <li><strong>Modules ultra-compacts</strong> - "Smallest on the market" (USP fort)</li>
+                        <li><strong>Antenna-in-Package</strong> - Différenciateur technique majeur</li>
+                        <li><strong>Service d'ingénierie custom</strong> - Valeur ajoutée vs off-the-shelf</li>
+                    </ul>
+                    <div class="alert alert-success" style="margin-top: 20px;">
+                        <div>
+                            <strong>Stratégie Recommandée :</strong> Au lieu de concurrencer frontalement les géants, dominez les niches "miniaturization", "custom modules", et "medical IoT" où vous avez un avantage naturel.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>💡 Opportunités de Différenciation</h3>
+                    <p style="color: var(--gray); margin-bottom: 20px;">Ce que les concurrents ne font PAS</p>
+                    <ul class="icon-list">
+                        <li><strong>Case Studies Détaillées</strong> - Peu de contenus "customer success"</li>
+                        <li><strong>Comparaisons Objectives</strong> - Aucun concurrent ne compare ouvertement</li>
+                        <li><strong>Vertical-Specific Content</strong> - Healthcare IoT sous-exploité</li>
+                        <li><strong>Business ROI Content</strong> - Trop technique, pas assez business</li>
+                    </ul>
+                    <div style="margin-top: 20px; padding: 15px; background: #dbeafe; border-radius: 8px;">
+                        <strong style="color: var(--primary);">Ces gaps sont vos opportunités !</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LINKEDIN -->
+    <div class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">💼 LinkedIn : Le Canal B2B Incontournable</h2>
+            <p class="section-subtitle">Pourquoi LinkedIn est critique pour Insight SiP et comment en tirer profit</p>
+
+            <div class="grid-3">
+                <div class="metric-card card">
+                    <h4>Portée Potentielle</h4>
+                    <span class="value">1.5M</span>
+                    <p style="margin-top: 10px; color: var(--gray);">Professionnels B2B qualifiés dans l'IoT/Electronics</p>
+                </div>
+                <div class="metric-card card">
+                    <h4>ROI LinkedIn B2B</h4>
+                    <span class="value">84%</span>
+                    <p style="margin-top: 10px; color: var(--gray);">Des marketeurs B2B affirment que c'est #1 pour le ROI</p>
+                </div>
+                <div class="metric-card card">
+                    <h4>Décideurs Accessibles</h4>
+                    <span class="value">7M</span>
+                    <p style="margin-top: 10px; color: var(--gray);">Décideurs IT de haut niveau sur LinkedIn</p>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 40px;">
+                <h3>🎯 Votre Audience Cible sur LinkedIn</h3>
+                <div class="grid-2" style="margin-top: 30px;">
+                    <div>
+                        <h4 style="color: var(--primary); margin-bottom: 15px;">Personas Principaux</h4>
+                        <ul class="icon-list">
+                            <li><strong>R&D Engineers</strong> - 500K-1M professionnels (IoT Engineer, Hardware Designer)</li>
+                            <li><strong>Technical Buyers</strong> - 200K-400K professionnels (Sourcing Manager, Supply Chain)</li>
+                            <li><strong>Decision Makers</strong> - 150K-300K professionnels (Product Manager, CTO, VP Engineering)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--primary); margin-bottom: 15px;">Pain Points à Adresser</h4>
+                        <ul class="icon-list">
+                            <li>Miniaturization challenges</li>
+                            <li>Time-to-market pressure</li>
+                            <li>Power consumption optimization</li>
+                            <li>Certification complexities</li>
+                            <li>Cost vs performance trade-offs</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2" style="margin-top: 40px;">
+                <div class="card">
+                    <h3>📱 Stratégie Organic Content</h3>
+                    <p style="color: var(--gray); margin-bottom: 20px;">3-5 posts par semaine</p>
+                    <strong style="display: block; margin-bottom: 15px; color: var(--primary);">Thèmes Piliers :</strong>
+                    <ul class="icon-list">
+                        <li><strong>Thought Leadership</strong> - Miniaturization, SiP vs SoC, Industry 4.0</li>
+                        <li><strong>Case Studies</strong> - Success stories avec métriques (Limbitless Solutions, etc.)</li>
+                        <li><strong>Technical Deep Dives</strong> - Antenna design, power optimization</li>
+                        <li><strong>Industry Insights</strong> - IoT trends, Bluetooth 6.0, Matter protocol</li>
+                    </ul>
+                    <div style="margin-top: 20px; padding: 15px; background: var(--light-bg); border-radius: 8px;">
+                        <strong>Formats :</strong> Carrousels (10 slides), Videos (30-90s), Articles longs, Polls
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>💰 Stratégie LinkedIn Ads</h3>
+                    <p style="color: var(--gray); margin-bottom: 20px;">Budget : €7K-10K/mois</p>
+                    <strong style="display: block; margin-bottom: 15px; color: var(--primary);">3 Campagnes Clés :</strong>
+                    <ul class="icon-list">
+                        <li><strong>Sponsored Content</strong> - Awareness (€3-5K/mois) → White papers, comparaisons</li>
+                        <li><strong>Message Ads</strong> - Lead Gen (€2-3K/mois) → Consultations gratuites</li>
+                        <li><strong>Thought Leader Ads</strong> - Trust (€2K/mois) → Posts CEO/CTO amplifiés</li>
+                    </ul>
+                    <div style="margin-top: 20px; padding: 15px; background: #d1fae5; border-radius: 8px;">
+                        <strong style="color: #065f46;">ROI Estimé : 40-60 leads/mois → 6-12 deals fermés/mois</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 40px;">
+                <h3>📊 Projection LinkedIn (12 mois)</h3>
+                <div class="chart-container">
+                    <canvas id="linkedinGrowthChart"></canvas>
+                </div>
+            </div>
+
+            <div class="alert alert-success" style="margin-top: 40px;">
+                <span class="alert-icon">💡</span>
+                <div>
+                    <strong>Insight Clé :</strong> Vos concurrents (Nordic, Murata) ont 20K-250K followers sur LinkedIn mais produisent peu de contenu thought leadership. C'est une opportunité de vous positionner comme l'expert de niche accessible et réactif.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SYNERGIE -->
+    <div class="section">
+        <div class="container">
+            <h2 class="section-title">🔄 La Puissance de la Synergie SEO × LinkedIn</h2>
+            <p class="section-subtitle">Pourquoi ces deux canaux ensemble créent un effet multiplicateur</p>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>🎯 Complémentarité du Funnel</h3>
+                    <div style="margin: 30px 0;">
+                        <div style="padding: 20px; background: linear-gradient(to right, #3b82f6 0%, #3b82f6 100%); color: white; border-radius: 8px 8px 0 0;">
+                            <strong>TOFU - Awareness</strong>
+                        </div>
+                        <div style="padding: 20px; background: var(--light-bg); border-left: 3px solid var(--primary);">
+                            <strong>SEO :</strong> Recherches informationnelles ("what is BLE", "IoT modules comparison")<br>
+                            <strong>LinkedIn :</strong> Thought leadership, industry insights, viral content
+                        </div>
+
+                        <div style="padding: 20px; background: linear-gradient(to right, #10b981 0%, #10b981 100%); color: white; margin-top: 15px;">
+                            <strong>MOFU - Consideration</strong>
+                        </div>
+                        <div style="padding: 20px; background: var(--light-bg); border-left: 3px solid var(--secondary);">
+                            <strong>SEO :</strong> Guides techniques, white papers, product comparisons<br>
+                            <strong>LinkedIn :</strong> Webinaires, case studies détaillées, ROI content
+                        </div>
+
+                        <div style="padding: 20px; background: linear-gradient(to right, #f59e0b 0%, #f59e0b 100%); color: white; margin-top: 15px; border-radius: 0 0 8px 8px;">
+                            <strong>BOFU - Decision</strong>
+                        </div>
+                        <div style="padding: 20px; background: var(--light-bg); border-left: 3px solid var(--warning); border-radius: 0 0 8px 8px;">
+                            <strong>SEO :</strong> Pages produits optimisées, documentation technique<br>
+                            <strong>LinkedIn :</strong> Message Ads, consultations directes, social proof
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>♻️ Content Repurposing</h3>
+                    <p style="color: var(--gray); margin-bottom: 20px;">1 White Paper SEO = 20+ Assets LinkedIn</p>
+                    <div style="background: var(--light-bg); padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+                        <strong style="color: var(--primary); display: block; margin-bottom: 10px;">Exemple Concret :</strong>
+                        <div style="font-size: 0.95rem;">
+                            <strong>Input :</strong> 1 White Paper "Bluetooth 6.0 Features"<br>
+                            <strong style="display: block; margin-top: 15px; margin-bottom: 10px;">Outputs :</strong>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>1 Landing page SEO optimisée</li>
+                                <li>10 LinkedIn posts "Did you know"</li>
+                                <li>1 Carrousel 10 slides</li>
+                                <li>1 Webinaire interactif</li>
+                                <li>5 LinkedIn Articles</li>
+                                <li>1 LinkedIn Event</li>
+                                <li>3 Email nurturing sequences</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="alert alert-success">
+                        <div>
+                            <strong>ROI du Content multiplié par 20x</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 40px;">
+                <h3>📈 Scénario de Conversion Type</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>Jour 1 : Découverte SEO</h4>
+                        <p>Un R&D Engineer cherche "low power ble module" sur Google → Visite votre site → Lit un white paper</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Jour 3-7 : Engagement LinkedIn</h4>
+                        <p>Voit votre post LinkedIn dans son feed → Suit votre page → Télécharge un guide comparatif</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Jour 14 : Nurturing</h4>
+                        <p>Reçoit un Message Ad personnalisé → S'inscrit à un webinaire → Assiste à la présentation</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Jour 30 : Conversion</h4>
+                        <p>Demande une consultation technique → Partage le contact du decision maker → Deal initié</p>
+                    </div>
+                </div>
+                <div class="alert alert-warning">
+                    <span class="alert-icon">⚡</span>
+                    <div>
+                        <strong>Point Critique :</strong> Sans LinkedIn, 60-70% de ces conversions seraient perdues après l'étape SEO. Sans SEO, la découverte initiale n'aurait jamais eu lieu. Les deux canaux se renforcent mutuellement.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ROI & PACKAGES -->
+    <div class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">💰 ROI & Packages d'Accompagnement</h2>
+            <p class="section-subtitle">Investissement et retour attendu sur 12 mois</p>
+
+            <div class="card" style="margin-bottom: 50px;">
+                <h3>📊 Projection ROI Globale (12 mois)</h3>
+                <div class="chart-container">
+                    <canvas id="roiChart"></canvas>
+                </div>
+                <div style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    <div style="text-align: center; padding: 20px; background: var(--light-bg); border-radius: 8px;">
+                        <div style="font-size: 0.9rem; color: var(--gray);">Investissement Total</div>
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--primary); margin: 10px 0;">€160K</div>
+                        <div style="font-size: 0.85rem;">SEO + LinkedIn + Content</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: var(--light-bg); border-radius: 8px;">
+                        <div style="font-size: 0.9rem; color: var(--gray);">Leads Générés</div>
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--secondary); margin: 10px 0;">600-1000</div>
+                        <div style="font-size: 0.85rem;">Leads B2B qualifiés</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: var(--light-bg); border-radius: 8px;">
+                        <div style="font-size: 0.9rem; color: var(--gray);">Pipeline Influenced</div>
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--warning); margin: 10px 0;">€3-8M</div>
+                        <div style="font-size: 0.85rem;">Selon taille moyenne deals</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: var(--light-bg); border-radius: 8px;">
+                        <div style="font-size: 0.9rem; color: var(--gray);">ROI Estimé</div>
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--primary); margin: 10px 0;">15-50x</div>
+                        <div style="font-size: 0.85rem;">Retour sur investissement</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Quick Wins</h3>
+                    <div class="price">€15K<span>/3 mois</span></div>
+                    <p style="color: var(--gray); margin-bottom: 30px;">Idéal pour tester rapidement l'approche</p>
+                    <ul class="icon-list" style="text-align: left;">
+                        <li>Audit SEO complet</li>
+                        <li>Optimisation Top 15 mots-clés</li>
+                        <li>10 articles optimisés</li>
+                        <li>Setup LinkedIn + 50 posts</li>
+                        <li>Corrections techniques critiques</li>
+                        <li>Reporting mensuel</li>
+                    </ul>
+                    <div style="margin-top: 30px; padding: 15px; background: var(--light-bg); border-radius: 8px;">
+                        <strong>Objectif : +200 visites/mois + 50 leads</strong>
+                    </div>
+                </div>
+
+                <div class="pricing-card featured">
+                    <h3>Growth Accelerator</h3>
+                    <div class="price">€12K<span>/mois</span></div>
+                    <p style="color: var(--gray); margin-bottom: 30px;">Programme complet sur 6-12 mois</p>
+                    <ul class="icon-list" style="text-align: left;">
+                        <li>Tout du package Quick Wins +</li>
+                        <li>30 articles techniques/mois</li>
+                        <li>Campagnes LinkedIn Ads (€7K/mois)</li>
+                        <li>1 webinaire/mois</li>
+                        <li>Employee advocacy program</li>
+                        <li>Backlink building</li>
+                        <li>Optimisation conversion</li>
+                        <li>Reporting hebdomadaire</li>
+                    </ul>
+                    <div style="margin-top: 30px; padding: 15px; background: #dbeafe; border-radius: 8px;">
+                        <strong style="color: var(--primary);">Objectif : x4 trafic + 500-800 leads/an</strong>
+                    </div>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Enterprise</h3>
+                    <div class="price">Custom</div>
+                    <p style="color: var(--gray); margin-bottom: 30px;">Solution sur-mesure pour scale</p>
+                    <ul class="icon-list" style="text-align: left;">
+                        <li>Tout du Growth Accelerator +</li>
+                        <li>Stratégie internationale (DE, UK)</li>
+                        <li>Account-Based Marketing</li>
+                        <li>Marketing automation complet</li>
+                        <li>Dedicated success manager</li>
+                        <li>Co-branding avec partenaires</li>
+                        <li>Custom analytics dashboard</li>
+                    </ul>
+                    <div style="margin-top: 30px; padding: 15px; background: var(--light-bg); border-radius: 8px;">
+                        <strong>Objectif : Domination de niche</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-success" style="margin-top: 40px;">
+                <span class="alert-icon">🎁</span>
+                <div>
+                    <strong>Offre de Lancement :</strong> Audit SEO approfondi de 2 jours offert (valeur €3,000) + Session stratégique LinkedIn de 3h avec nos experts pour tout engagement de 6+ mois avant fin décembre 2025.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA FINAL -->
+    <div class="cta-section">
+        <div class="container">
+            <h2>Prêt à Multiplier Votre Trafic par 4 ?</h2>
+            <p>Discutons de votre situation et identifions ensemble les quick wins qui peuvent être mis en place dès maintenant.</p>
+            <div>
+                <a href="mailto:votre-email@agence.com?subject=Consultation Insight SiP - SEO %26 LinkedIn" class="btn btn-primary">Réserver une Consultation Gratuite</a>
+                <a href="#" class="btn btn-secondary">Télécharger l'Audit Complet (PDF)</a>
+            </div>
+            <p style="margin-top: 30px; font-size: 0.95rem; opacity: 0.9;">
+                ⏱️ Places limitées - Nous n'acceptons que 3 nouveaux clients par trimestre pour garantir un service d'excellence
             </p>
         </div>
-    </footer>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="container">
+            <p style="margin-bottom: 15px;"><strong>Votre Agence SEO & LinkedIn B2B</strong></p>
+            <p>Spécialistes du marketing digital pour l'industrie Tech & IoT</p>
+            <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.8;">
+                © 2025 - Tous droits réservés | Données basées sur Semrush, Google Trends, LinkedIn B2B Benchmark 2024-2025
+            </p>
+        </div>
+    </div>
+
+    <!-- CHARTS SCRIPTS -->
+    <script>
+        // SEO Growth Chart
+        const seoCtx = document.getElementById('seoGrowthChart');
+        new Chart(seoCtx, {
+            type: 'line',
+            data: {
+                labels: ['Nov 2025', 'Déc', 'Jan 2026', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov 2026'],
+                datasets: [{
+                    label: 'Trafic Actuel (Sans Action)',
+                    data: [274, 270, 265, 260, 255, 250, 245, 240, 235, 230, 225, 220, 215],
+                    borderColor: '#ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    borderDash: [5, 5]
+                }, {
+                    label: 'Trafic Projeté (Avec Stratégie)',
+                    data: [274, 320, 380, 450, 520, 620, 740, 840, 920, 990, 1050, 1090, 1130],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y + ' visites/mois';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function(value) {
+                                return value + ' visites';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // LinkedIn Growth Chart
+        const linkedinCtx = document.getElementById('linkedinGrowthChart');
+        new Chart(linkedinCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Mois 1-3', 'Mois 4-6', 'Mois 7-9', 'Mois 10-12'],
+                datasets: [{
+                    label: 'Leads Générés',
+                    data: [50, 150, 250, 350],
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 8
+                }, {
+                    label: 'Followers LinkedIn',
+                    data: [500, 2000, 5000, 8000],
+                    backgroundColor: '#10b981',
+                    borderRadius: 8,
+                    yAxisID: 'y1'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Leads Générés',
+                            font: {
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Followers',
+                            font: {
+                                weight: 'bold'
+                            }
+                        },
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // ROI Chart
+        const roiCtx = document.getElementById('roiChart');
+        new Chart(roiCtx, {
+            type: 'line',
+            data: {
+                labels: ['Mois 1', 'Mois 2', 'Mois 3', 'Mois 4', 'Mois 5', 'Mois 6', 'Mois 7', 'Mois 8', 'Mois 9', 'Mois 10', 'Mois 11', 'Mois 12'],
+                datasets: [{
+                    label: 'Investissement Cumulé',
+                    data: [13, 26, 39, 52, 65, 78, 91, 104, 117, 130, 143, 156],
+                    borderColor: '#ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.1
+                }, {
+                    label: 'Pipeline Influenced (Scénario Conservateur)',
+                    data: [0, 0, 50, 150, 300, 550, 850, 1200, 1600, 2100, 2650, 3200],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.3,
+                    fill: true
+                }, {
+                    label: 'Pipeline Influenced (Scénario Optimiste)',
+                    data: [0, 0, 100, 300, 600, 1100, 1800, 2700, 3800, 5100, 6600, 8200],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.05)',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    fill: true,
+                    borderDash: [5, 5]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 13,
+                                weight: 'bold'
+                            },
+                            padding: 15
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': €' + context.parsed.y + 'K';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '€' + value + 'K';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 
 </body>
 </html>
